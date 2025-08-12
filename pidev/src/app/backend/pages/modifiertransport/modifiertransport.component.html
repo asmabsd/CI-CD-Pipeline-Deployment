@@ -1,0 +1,50 @@
+<div class="container mt-5">
+    <h3>Modifier un Transport</h3>
+  
+    <form [formGroup]="transportForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Type</label>
+          <select class="form-control" formControlName="type">
+            <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+  
+        <div class="form-group col-md-4">
+          <label>Disponibility</label>
+          <select class="form-control" formControlName="disponibilite">
+            <option value="Disponible">Available </option>
+            <option value="Non disponible">Non available</option>
+          </select>
+        </div>
+  
+        <div class="form-group col-md-4">
+          <label>Place</label>
+          <select class="form-control" formControlName="location">
+            <option *ngFor="let gov of gouvernorats" [value]="gov">{{ gov }}</option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>Description</label>
+        <input formControlName="description" class="form-control" />
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Capacity</label>
+          <input formControlName="capacity" class="form-control" />
+        </div>
+        <div class="form-group col-md-6">
+          <label>Price</label>
+          <input type="number" formControlName="price" class="form-control" />
+        </div>
+      </div>
+  
+      <button class="btn btn-success mt-3" type="submit" [disabled]="transportForm.invalid">
+        💾 Save the modifications
+      </button>
+    </form>
+  </div>
+  

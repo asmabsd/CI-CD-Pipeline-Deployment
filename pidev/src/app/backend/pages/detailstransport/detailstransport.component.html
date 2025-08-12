@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-header bg-blue text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Détails du Transport</h5>
+        <button class="btn btn-success btn-sm" routerLink="/dashboard/listetransports">← Retour</button>
+      </div>
+      <div class="card-body p-0">
+        <table class="table mb-0">
+          <tbody>
+            <tr>
+              <th class="bg-light w-25">Type</th>
+              <td>{{ transport.type }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Disponibilité</th>
+              <td>{{ transport.disponibilite }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Lieu</th>
+              <td>{{ transport.location }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Description</th>
+              <td>{{ transport.description }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Capacité</th>
+              <td>{{ transport.capacity }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Prix</th>
+              <td>{{ transport.price }} DT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

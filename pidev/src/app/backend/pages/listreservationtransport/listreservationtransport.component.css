@@ -1,0 +1,59 @@
+/* Conteneur principal */
+.table-container {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    padding: 1rem;
+  }
+  
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 15px;
+    color: #333;
+  }
+  
+  /* En-tête */
+  thead {
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: #fff;
+  }
+  
+  thead th {
+    padding: 12px 20px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  /* Corps */
+  tbody td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  tbody tr:hover {
+    background-color: #f0f9ff;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Bouton supprimer */
+  button {
+    background-color: #ef4444;
+    color: white;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #dc2626;
+  }
+  

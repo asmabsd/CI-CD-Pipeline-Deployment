@@ -1,0 +1,35 @@
+.bg-blue {
+    background-color: #007bff; /* 💙 Bleu Bootstrap */
+  }
+  
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  
+  th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 15px;
+    text-transform: uppercase;
+  }
+  
+  td {
+    font-weight: 500;
+    color: #343a40;
+    font-size: 16px;
+  }
+  
+  .card-header h5 {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  
+  button.btn-success {
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 5px;
+  }
+  

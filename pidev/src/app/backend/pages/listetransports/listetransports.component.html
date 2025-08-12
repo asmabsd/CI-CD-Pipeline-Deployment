@@ -1,0 +1,205 @@
+<div>
+  <div class="row mb-4">
+
+    
+    <div class="col-md-6">
+      <div class="card bg-success text-white shadow-sm">
+        <div class="card-body d-flex align-items-center">
+          <i class="fas fa-check-circle fa-2x me-3"></i>
+          <div>
+            <h5 class="mb-0">{{ getFilteredAvailableCount() }} disponibles</h5>
+            <small>Transports prêts à l’emploi</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <div class="card bg-danger text-white shadow-sm">
+        <div class="card-body d-flex align-items-center">
+          <i class="fas fa-times-circle fa-2x me-3"></i>
+          <div>
+            <h5 class="mb-0">{{ getFilteredUnavailableCount() }} non disponibles</h5>
+            <small>Transports hors service</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <div>
+  <!-- 🔽 Filtres combinés -->
+  <div class="row mb-3">
+    <div class="col-md-10 offset-md-1">
+      <div class="row align-items-end gx-2">
+  
+        <!-- Type -->
+        <div class="col-md-3">
+          <label class="form-label"><i class="fas fa-car-side me-1"></i> Type de transport</label>
+          <select class="form-control" [(ngModel)]="searchType">
+            <option value="">Tous les types</option>
+            <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+  
+        <!-- Lieu -->
+        <div class="col-md-3">
+          <label class="form-label"><i class="fas fa-map-marker-alt me-1"></i> Lieu</label>
+          <select class="form-control" [(ngModel)]="searchLieu">
+            <option value="">Tous les lieux</option>
+            <option *ngFor="let g of gouvernorats" [value]="g">{{ g }}</option>
+          </select>
+        </div>
+  
+        <!-- Réinitialiser -->
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-outline-dark w-100" (click)="resetFilters()">🔄 Réinitialiser les filtres</button>
+        </div>
+  
+        <!-- Réservations -->
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-info w-100" [routerLink]="['/dashboard/listereservations']">
+            <i class="fas fa-calendar-check me-1"></i> Voir les Réservations
+          </button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- 🔄 Tableau filtré -->
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Disponibilité</th>
+        <th>Lieu</th>
+        <th>Description</th>
+        <th>Capacité</th>
+        <th>Prix (DT)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- ❗ Message si aucun résultat -->
+      <tr *ngIf="filteredTransports().length === 0">
+        <td colspan="7" class="text-center text-muted">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          Aucun transport trouvé pour les filtres sélectionnés.
+        </td>
+      </tr>
+
+      <!-- ✅ Résultats filtrés -->
+      <tr *ngFor="let transport of filteredTransports()">
+        <td>{{ transport.type }}</td>
+        <td>{{ transport.disponibilite }}</td>
+        <td>{{ transport.location }}</td>
+        <td>{{ transport.description }}</td>
+        <td>{{ transport.capacity }}</td>
+        <td>{{ transport.price }}</td>
+        <td class="action-buttons">
+          <button class="btn btn-sm btn-info text-white"
+                  [routerLink]="['/dashboard/detailstransport', transport.id]">👁 View</button>
+          <button class="btn btn-sm btn-warning text-dark"
+                  [routerLink]="['/dashboard/modifiertransport', transport.id]">✏️ Edit</button>
+          <button class="btn btn-sm btn-outline-dark"
+                  (click)="deleteTransport(transport.id)">🗑 Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <!-- 🔼 Formulaire d'ajout de transport -->
+<div class="card shadow-sm mb-4 mt-5  ">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">➕ Ajouter un transport</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="transportForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Type</label>
+          <select class="form-control"
+          formControlName="type"
+          [ngClass]="{ 'is-invalid': submitted && transportForm.controls['type'].invalid }">
+    <option value="">-- Sélectionner un type --</option>
+    <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+  </select>
+ 
+<div *ngIf="submitted && transportForm.controls['type'].invalid" class="invalid-feedback">
+  Le type est requis.
+</div>
+
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Disponibilité</label>
+          <select class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && transportForm.controls['disponibilite'].invalid }"
+          formControlName="disponibilite">
+    <option value="">-- Sélectionner --</option>
+    <option value="Disponible">Disponible</option>
+    <option value="Non disponible">Non disponible</option>
+  </select>
+  <div *ngIf="submitted && transportForm.controls['disponibilite'].invalid" class="invalid-feedback">
+    La disponibilité est requise.
+  </div>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Lieu</label>
+          <select class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && transportForm.controls['location'].invalid }"
+        formControlName="location">
+  <option value="">-- Sélectionner un gouvernorat --</option>
+  <option *ngFor="let g of gouvernorats" [value]="g">{{ g }}</option>
+</select>
+<div *ngIf="submitted && transportForm.controls['location'].invalid" class="invalid-feedback">
+  Le lieu est requis.
+</div>
+
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" formControlName="description" rows="2" placeholder="Description du transport"></textarea>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Capacité</label>
+          <input type="number"
+       class="form-control"
+       [ngClass]="{ 'is-invalid': submitted && transportForm.controls['capacity'].invalid }"
+       formControlName="capacity" min="1">
+<div *ngIf="submitted && transportForm.controls['capacity'].invalid" class="invalid-feedback">
+  Capacité requise (≥ 1).
+</div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Prix (DT)</label>
+          <input type="number"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && transportForm.controls['price'].invalid }"
+          formControlName="price" min="0">
+   <div *ngIf="submitted && transportForm.controls['price'].invalid" class="invalid-feedback">
+     Prix requis (≥ 0 DT).
+   </div>
+   
+        </div>
+
+        <div class="col-md-6 d-flex align-items-end justify-content-end">
+          <button type="submit" class="btn btn-success w-100">Ajouter le transport</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>

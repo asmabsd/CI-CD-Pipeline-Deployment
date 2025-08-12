@@ -1,0 +1,36 @@
+<h2 class="text-2xl font-semibold mb-6 text-gray-800">🚐 Mes réservations de transport</h2>
+
+<div class="overflow-x-auto rounded-xl shadow-lg bg-white">
+  <table class="min-w-full table-auto border-collapse">
+    <thead class="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-left">
+      <tr>
+        <th class="px-6 py-3">Departure</th>
+        <th class="px-6 py-3">Destination</th>
+        <th class="px-6 py-3">Departure Hour </th>
+        <th class="px-6 py-3">Personnes</th>
+        <th class="px-6 py-3">ID User</th>
+        <th class="px-6 py-3">ID Transport</th>
+        <th class="px-6 py-3 text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let res of reservations"
+          class="hover:bg-blue-50 border-b border-gray-200 transition duration-200">
+        <td class="px-6 py-3 text-gray-700">{{ res.departPoint }}</td>
+        <td class="px-6 py-3 text-gray-700">{{ res.destination }}</td>
+        <td class="px-6 py-3 text-gray-700">{{ res.departureHour | date:'short' }}</td>
+        <td class="px-6 py-3 text-gray-700">{{ res.nbrpersonne }}</td>
+        <td class="px-6 py-3 text-gray-700">{{ res.transport?.id }}</td>
+        <td class="px-6 py-3 text-gray-700">{{ res.user?.id }}</td>
+        
+        <td class="px-6 py-3 text-center">
+          <button (click)="deleteReservation(res.id!)"
+                  class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded shadow">
+           Delete
+          </button>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

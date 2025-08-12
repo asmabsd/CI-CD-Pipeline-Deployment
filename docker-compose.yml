@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: mysql-tourisme
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tourisme1
+      MYSQL_USER: tourisme_user
+      MYSQL_PASSWORD: tourisme_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - spring-demo
+
+  backend:
+    container_name: spring-tourisme
+    build: ./backend
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tourisme1?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: tourisme_user
+      SPRING_DATASOURCE_PASSWORD: tourisme_pass
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: lefriiw@gmail.com
+      SPRING_MAIL_PASSWORD: "cwfu bwfk breu mrxe"
+    ports:
+      - "8089:8089"
+    depends_on:
+      - mysql
+    networks:
+      - spring-demo
+
+  frontend:
+    container_name: angular-tourisme
+    build: ./frontend
+
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - spring-demo
+
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  mysql_data:
